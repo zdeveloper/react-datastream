@@ -2,7 +2,7 @@
   "name": "react-xedd",
   "version": "0.0.1",
   "description": "React js state management made easy!",
-  "main": "src/xedd.js",
+  "main": "dist/xedd.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
