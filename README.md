@@ -4,7 +4,7 @@ React-Xedd is the dead simple state-manager-ish that will make your "Prop Drilli
 
 * Easy to use and integrate
 * No boilerplate
-* minimal react code changes
+* Minimal react code changes
 * Magic
 
 # How it works!
