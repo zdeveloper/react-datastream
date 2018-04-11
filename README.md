@@ -1,6 +1,6 @@
 # React-Xedd
 
-React-Xedd is the dead simple state-manager that will make your "Prop Drilling" a thing of the past.
+React-Xedd is the dead simple state-manager-ish that will make your "Prop Drilling" a thing of the past.
 
 * Easy to use and integrate
 * No boilerplate
