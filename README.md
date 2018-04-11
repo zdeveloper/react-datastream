@@ -9,7 +9,7 @@ React-Xedd is the dead simple state-manager-ish that will make your "Prop Drilli
 
 # How it works!
 
-React-Xedd used streams with a pub/sub model, any component can publish to the stream and any component can subscribe to a stream.
+React-Xedd uses streams with a pub/sub model, any component can publish to the stream and any component can subscribe to a stream. any to any relationship.
 
 ### Installation
 
