@@ -20,7 +20,7 @@ $ npm install react-xedd
 Then import it in your code
 
 ```javascript
-import xedd from "xedd";
+import xedd from "react-xedd";
 ```
 
 publish changes

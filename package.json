@@ -1,9 +1,10 @@
 {
   "name": "react-xedd",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "React js state management made easy!",
   "main": "dist/xedd.js",
   "scripts": {
+    "build": "tsc -p src/xedd.ts -outDir dist/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

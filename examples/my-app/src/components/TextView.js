@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import xedd from "../xedd";
+import xedd from "react-xedd";
 import { INPUT_STREAM } from "../streams";
 
 class TextView extends Component {

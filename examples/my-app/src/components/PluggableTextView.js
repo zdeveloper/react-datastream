@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import xedd from "../xedd";
+import xedd from "react-xedd";
 
 class PluggableTextView extends Component {
   constructor(props) {
