@@ -1,0 +1,20 @@
+{
+  "name": "react-xedd",
+  "version": "0.0.1",
+  "description": "React js state management made easy!",
+  "main": "src/xedd.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zdeveloper/react-xedd.git"
+  },
+  "keywords": ["react", "state", "management", "xedd"],
+  "author": "Zedd Shmais",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zdeveloper/react-xedd/issues"
+  },
+  "homepage": "https://github.com/zdeveloper/react-xedd#readme"
+}
