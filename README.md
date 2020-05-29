@@ -1,6 +1,6 @@
 # React-DataStream
 
-react-datastream is the dead simple state-manager-ish that will make your "Prop Drilling" a thing of the past.
+react-datastream is an easy way for your components to talk to each other. it will make your "Prop Drilling" a thing of the past.
 
 * Easy to use and integrate
 * No boilerplate
