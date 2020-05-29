@@ -1,16 +1,15 @@
 "use strict";
 exports.__esModule = true;
 var Stream = /** @class */ (function () {
-    function Stream(key) {
-        this._key = "";
+    function Stream() {
+        this._value = null;
         this._subscribers = [];
-        this._key = key;
     }
     Stream.prototype.getValue = function () {
         return this._value;
     };
-    Stream.prototype.getKey = function () {
-        return this._key;
+    Stream.prototype.isEmpty = function () {
+        return this.getValue() === null;
     };
     Stream.prototype.publish = function (newValue) {
         this._value = newValue;
@@ -18,8 +17,11 @@ var Stream = /** @class */ (function () {
             this._subscribers[i](this._value);
         }
     };
-    Stream.prototype.subscribe = function (callback) {
+    Stream.prototype.subscribe = function (callback, replayLastPublish) {
         this._subscribers.push(callback);
+        if (replayLastPublish && !this.isEmpty()) {
+            this.publish(this.getValue());
+        }
     };
     return Stream;
 }());
@@ -30,12 +32,13 @@ var StreamContainer = /** @class */ (function () {
     StreamContainer.prototype._checkStream = function (streamKey) {
         var existsFlag = streamKey in this._streams;
         if (!existsFlag) {
-            this._streams[streamKey] = new Stream(streamKey);
+            this._streams[streamKey] = new Stream();
         }
     };
-    StreamContainer.prototype.subscribe = function (streamKey, callback) {
+    StreamContainer.prototype.subscribe = function (streamKey, callback, replayLastPublish) {
+        if (replayLastPublish === void 0) { replayLastPublish = false; }
         this._checkStream(streamKey);
-        this._streams[streamKey].subscribe(callback);
+        this._streams[streamKey].subscribe(callback, replayLastPublish);
     };
     StreamContainer.prototype.publish = function (streamKey, newValue) {
         this._checkStream(streamKey);

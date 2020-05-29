@@ -1,18 +1,13 @@
 class Stream {
-  private _key = "";
-  private _value: any;
+  private _value: any = null;
   private _subscribers = [];
 
-  constructor(key: string) {
-    this._key = key;
-  }
-
-  getValue() {
+  getValue(): any {
     return this._value;
   }
 
-  getKey() {
-    return this._key;
+  isEmpty(): boolean {
+    return this.getValue() === null;
   }
 
   publish(newValue: any) {
@@ -22,8 +17,12 @@ class Stream {
     }
   }
 
-  subscribe(callback: () => void) {
+  subscribe(callback: () => void, replayLastPublish) {
     this._subscribers.push(callback);
+
+    if (replayLastPublish && !this.isEmpty()) {
+      this.publish(this.getValue())
+    }
   }
 }
 
@@ -33,13 +32,13 @@ class StreamContainer {
   private _checkStream(streamKey: string) {
     var existsFlag = streamKey in this._streams;
     if (!existsFlag) {
-      this._streams[streamKey] = new Stream(streamKey);
+      this._streams[streamKey] = new Stream();
     }
   }
 
-  subscribe(streamKey: string, callback: () => void): void {
+  subscribe(streamKey: string, callback: () => void, replayLastPublish: boolean = false): void {
     this._checkStream(streamKey);
-    this._streams[streamKey].subscribe(callback);
+    this._streams[streamKey].subscribe(callback, replayLastPublish);
   }
 
   publish(streamKey: string, newValue: any): void {

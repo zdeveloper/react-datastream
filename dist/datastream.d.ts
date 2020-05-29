@@ -1,7 +1,7 @@
 declare class StreamContainer {
     private _streams;
     private _checkStream;
-    subscribe(streamKey: string, callback: () => void): void;
+    subscribe(streamKey: string, callback: () => void, replayLastPublish?: boolean): void;
     publish(streamKey: string, newValue: any): void;
     getLastValue(streamKey: string): any;
 }
