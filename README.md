@@ -1,6 +1,6 @@
-# React-Xedd
+# React-DataStream
 
-React-Xedd is the dead simple state-manager-ish that will make your "Prop Drilling" a thing of the past.
+react-datastream is the dead simple state-manager-ish that will make your "Prop Drilling" a thing of the past.
 
 * Easy to use and integrate
 * No boilerplate
@@ -9,30 +9,37 @@ React-Xedd is the dead simple state-manager-ish that will make your "Prop Drilli
 
 # How it works!
 
-React-Xedd uses streams with a pub/sub model, any component can publish to the stream and any component can subscribe to a stream. any to any relationship.
+react-datastream uses streams with a pub/sub model, any component can publish to the stream and any component can subscribe to a stream. any to any relationship.
 
 ### Installation
 
 ```sh
-$ npm install react-xedd
+$ npm install react-datastream
 ```
 
 Then import it in your code
 
 ```javascript
-import xedd from "react-xedd";
+import datastream from "react-datastream";
 ```
+
+declare a shared stream name
+
+```javascript
+const STREAM_NAME = "DATA_STREAM"
+```
+
 
 publish changes
 
 ```javascript
-xedd.publish(<STREAM_NAME>, value);
+datastream.publish(STREAM_NAME, value);
 ```
 
 listen for changes
 
 ```javascript
-xedd.subscribe(<STREAM_NAME>, callback);
+datastream.subscribe(STREAM_NAME, (value) => {console.log(value)});
 ```
 
 **Cheers!**

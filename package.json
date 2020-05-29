@@ -1,21 +1,30 @@
 {
-  "name": "react-xedd",
-  "version": "0.0.5",
+  "name": "react-datastream",
+  "version": "0.0.1",
   "description": "React js state management made easy!",
-  "main": "dist/xedd.js",
+  "main": "dist/datastream.js",
   "scripts": {
-    "build": "tsc -p src/xedd.ts -outDir dist/",
+    "build": "tsc  --declaration --outDir dist/  src/datastream.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zdeveloper/react-xedd.git"
+    "url": "git+https://github.com/zdeveloper/react-datastream.git"
   },
-  "keywords": ["react", "state", "management", "xedd"],
+  "keywords": [
+    "react",
+    "datastream",
+    "data",
+    "stream",
+    "state",
+    "management",
+    "pub",
+    "sub"
+  ],
   "author": "Zedd Shmais",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/zdeveloper/react-xedd/issues"
+    "url": "https://github.com/zdeveloper/react-datastream/issues"
   },
-  "homepage": "https://github.com/zdeveloper/react-xedd#readme"
+  "homepage": "https://github.com/zdeveloper/react-datastream#readme"
 }
