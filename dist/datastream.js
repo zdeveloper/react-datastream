@@ -49,7 +49,13 @@ var StreamContainer = /** @class */ (function () {
             this._streams[streamKey] = new Stream();
         }
     };
-    /*returns unsubscribe hook */
+    /**
+   * Subscribes to stream
+   * @param  {Number} streamKey stream name
+   * @param  {Function} callback callback for value
+   * @param  {Boolean} replayLastPublish publishes exisiting value right away
+   * @return {Function} unsubscribe hook
+   */
     StreamContainer.prototype.subscribe = function (streamKey, callback, replayLastPublish) {
         if (replayLastPublish === void 0) { replayLastPublish = true; }
         this._upsertStream(streamKey);

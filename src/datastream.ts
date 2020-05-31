@@ -52,7 +52,14 @@ class StreamContainer {
     }
   }
 
-  /*returns unsubscribe hook */
+
+  /**
+ * Subscribes to stream
+ * @param  {Number} streamKey stream name
+ * @param  {Function} callback callback for value
+ * @param  {Boolean} replayLastPublish publishes exisiting value right away
+ * @return {Function} unsubscribe hook
+ */
   subscribe(streamKey: string, callback: () => void, replayLastPublish: boolean = true): () => void {
     this._upsertStream(streamKey);
     return this._streams[streamKey].subscribe(callback, replayLastPublish);
