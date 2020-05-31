@@ -1,12 +1,18 @@
 import React, { Component } from "react";
 import datastream from "react-datastream";
+import { SELECTION_STREAM } from "../streams"
 
 class PluggableTextView extends Component {
 
-  state = { value: "No value recieved yet" };
+  state = { value: null };
+  unsubscribe_hook;
 
   componentDidMount() {
-    datastream.subscribe(this.props.stream, this.handleTextChange);
+    this.unsubscribe_hook = datastream.subscribe(SELECTION_STREAM, this.handleTextChange);
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe_hook()
   }
 
   handleTextChange = (text) => {
@@ -16,10 +22,12 @@ class PluggableTextView extends Component {
   render() {
     return (
       <div>
-        <p>
-          <strong>Selected Option</strong>
-        </p>
-        <p>{this.state.value}</p>
+        {this.state.value ?
+          <p>Your favorite state manager is <i>{this.state.value}</i></p>
+          :
+          <p >You havent selected a favorite state manager</p>
+        }
+        <p></p>
       </div>
     );
   }

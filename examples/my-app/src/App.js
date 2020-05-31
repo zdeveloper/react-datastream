@@ -1,28 +1,41 @@
 import React, { Component } from "react";
 import "./App.css";
-import InputBox from "./components/InputBox";
-import TextView from "./components/TextView";
-import TextView2 from "./components/TextView2";
-import PluggableSelectBox from "./components/PluggableSelectBox";
-import PluggableTextView from "./components/PluggableTextView";
+import MainPage from "./pages/MainPage"
+import SettingsPage from "./pages/SettingsPage"
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 class App extends Component {
 
   render() {
-    const stream_name = "my-common-stream-name"
     return (
-      <div className="mt-4">
-        <InputBox />
-        <p>The following two text boxes are listening to text changes:</p>
-        <TextView />
-        <TextView2 />
-        <hr />
-        <PluggableSelectBox
-          stream={stream_name}
-          options={["react-datastream", "Flux", "Redux", "Context"]}
-        />
-        <PluggableTextView stream={stream_name} />
-      </div>
+      <Router>
+        <div>
+          <nav>
+            <ul>
+              <li>
+                <Link to="/">Main</Link>
+              </li>
+              <li>
+                <Link to="/settings">Settings</Link>
+              </li>
+            </ul>
+          </nav>
+
+          <Switch>
+            <Route path="/settings">
+              <SettingsPage />
+            </Route>
+            <Route path="/">
+              <MainPage />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
     );
   }
 }
