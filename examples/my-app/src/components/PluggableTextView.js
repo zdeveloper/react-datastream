@@ -5,14 +5,14 @@ import { SELECTION_STREAM } from "../streams"
 class PluggableTextView extends Component {
 
   state = { value: null };
-  unsubscribe_hook;
+  stream;
 
   componentDidMount() {
-    this.unsubscribe_hook = datastream.subscribe(SELECTION_STREAM, this.handleTextChange);
+    this.stream = datastream.subscribe(SELECTION_STREAM, this.handleTextChange);
   }
 
   componentWillUnmount() {
-    this.unsubscribe_hook()
+    this.stream.unsubscribe()
   }
 
   handleTextChange = (text) => {

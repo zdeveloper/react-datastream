@@ -5,14 +5,14 @@ import { INPUT_STREAM } from "../streams";
 class TextView extends Component {
 
   state = { value: "test" };
-  unsubscribe_hook;
+  stream;
 
   componentDidMount() {
-    this.unsubscribe_hook = datastream.subscribe(INPUT_STREAM, this.handleTextChange);
+    this.stream = datastream.subscribe(INPUT_STREAM, this.handleTextChange);
   }
 
   componentWillUnmount() {
-    this.unsubscribe_hook()
+    this.stream.unsubscribe()
   }
 
   handleTextChange = (text) => {

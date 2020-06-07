@@ -1,13 +1,23 @@
-class Stream {
-  private _value: any = null;
+export type Stream = {
+  unsubscribe: () => void;
+  getLastValue: () => any;
+}
+
+class StreamInstance {
+  private _defaultEmptyValue = null;
+  private _value: any = this._defaultEmptyValue;
   private _subscribers = [];
 
   getValue(): any {
     return this._value;
   }
 
+  resetValue(){
+    this._value = this._defaultEmptyValue
+  }
+
   isEmpty(): boolean {
-    return this.getValue() === null;
+    return this.getValue() === this._defaultEmptyValue;
   }
 
   publish(newValue: any) {
@@ -18,16 +28,17 @@ class Stream {
   }
 
   /*returns unsubscribe hook */
-  subscribe(callback: () => void, replayLastPublish: boolean): () => void {
-    this._subscribers.push(callback);
+  subscribe(callback: (value?: any) => void, replayLastPublish: boolean): Stream {
+    !!callback && this._subscribers.push(callback);
 
     if (replayLastPublish && !this.isEmpty()) {
       this.publish(this.getValue())
     }
 
-    return (() => {
-      this._unsubscribe(callback);
-    })
+    return ({
+      unsubscribe: () => this._unsubscribe(callback),
+      getLastValue: () => this.getValue()
+    } as Stream)
   }
 
   private _unsubscribe(callback: () => void) {
@@ -39,28 +50,23 @@ class Stream {
 }
 
 class StreamContainer {
-  private _streams = [];
-
-  private _streamExists(streamKey: string) {
-    return streamKey in this._streams;
-  }
+  private _streams : StreamInstance[]= [];
 
   private _upsertStream(streamKey: string) {
     var existsFlag = streamKey in this._streams;
     if (!existsFlag) {
-      this._streams[streamKey] = new Stream();
+      this._streams[streamKey] = new StreamInstance();
     }
   }
-
 
   /**
  * Subscribes to stream
  * @param  {Number} streamKey stream name
  * @param  {Function} callback callback for value
  * @param  {Boolean} replayLastPublish publishes exisiting value right away
- * @return {Function} unsubscribe hook
+ * @return {Stream} returns a stream object
  */
-  subscribe(streamKey: string, callback: () => void, replayLastPublish: boolean = true): () => void {
+  subscribe(streamKey: string, callback?: (value?: any) => void, replayLastPublish: boolean = true): Stream {
     this._upsertStream(streamKey);
     return this._streams[streamKey].subscribe(callback, replayLastPublish);
   }
@@ -73,6 +79,14 @@ class StreamContainer {
   getLastValue(streamKey: string): any {
     this._upsertStream(streamKey);
     this._streams[streamKey].getValue();
+  }
+
+  /**
+   * ONLY use for testing or if you know what are doing
+   * This will wipe all subscriptions callbacks on all streams
+  */
+  resetAllStreams(){
+    this._streams = []
   }
 }
 

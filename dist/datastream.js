@@ -1,52 +1,54 @@
 "use strict";
 exports.__esModule = true;
-var Stream = /** @class */ (function () {
-    function Stream() {
-        this._value = null;
+var StreamInstance = /** @class */ (function () {
+    function StreamInstance() {
+        this._defaultEmptyValue = null;
+        this._value = this._defaultEmptyValue;
         this._subscribers = [];
     }
-    Stream.prototype.getValue = function () {
+    StreamInstance.prototype.getValue = function () {
         return this._value;
     };
-    Stream.prototype.isEmpty = function () {
-        return this.getValue() === null;
+    StreamInstance.prototype.resetValue = function () {
+        this._value = this._defaultEmptyValue;
     };
-    Stream.prototype.publish = function (newValue) {
+    StreamInstance.prototype.isEmpty = function () {
+        return this.getValue() === this._defaultEmptyValue;
+    };
+    StreamInstance.prototype.publish = function (newValue) {
         this._value = newValue;
         for (var i = 0; i < this._subscribers.length; i++) {
             this._subscribers[i](this._value);
         }
     };
     /*returns unsubscribe hook */
-    Stream.prototype.subscribe = function (callback, replayLastPublish) {
+    StreamInstance.prototype.subscribe = function (callback, replayLastPublish) {
         var _this = this;
-        this._subscribers.push(callback);
+        !!callback && this._subscribers.push(callback);
         if (replayLastPublish && !this.isEmpty()) {
             this.publish(this.getValue());
         }
-        return (function () {
-            _this._unsubscribe(callback);
-        });
+        return {
+            unsubscribe: function () { return _this._unsubscribe(callback); },
+            getLastValue: function () { return _this.getValue(); }
+        };
     };
-    Stream.prototype._unsubscribe = function (callback) {
+    StreamInstance.prototype._unsubscribe = function (callback) {
         var index = this._subscribers.indexOf(callback);
         if (index > -1) {
             this._subscribers.splice(index, 1);
         }
     };
-    return Stream;
+    return StreamInstance;
 }());
 var StreamContainer = /** @class */ (function () {
     function StreamContainer() {
         this._streams = [];
     }
-    StreamContainer.prototype._streamExists = function (streamKey) {
-        return streamKey in this._streams;
-    };
     StreamContainer.prototype._upsertStream = function (streamKey) {
         var existsFlag = streamKey in this._streams;
         if (!existsFlag) {
-            this._streams[streamKey] = new Stream();
+            this._streams[streamKey] = new StreamInstance();
         }
     };
     /**
@@ -54,7 +56,7 @@ var StreamContainer = /** @class */ (function () {
    * @param  {Number} streamKey stream name
    * @param  {Function} callback callback for value
    * @param  {Boolean} replayLastPublish publishes exisiting value right away
-   * @return {Function} unsubscribe hook
+   * @return {Stream} returns a stream object
    */
     StreamContainer.prototype.subscribe = function (streamKey, callback, replayLastPublish) {
         if (replayLastPublish === void 0) { replayLastPublish = true; }
@@ -68,6 +70,13 @@ var StreamContainer = /** @class */ (function () {
     StreamContainer.prototype.getLastValue = function (streamKey) {
         this._upsertStream(streamKey);
         this._streams[streamKey].getValue();
+    };
+    /**
+     * ONLY use for testing or if you know what are doing
+     * This will wipe all subscriptions callbacks on all streams
+    */
+    StreamContainer.prototype.resetAllStreams = function () {
+        this._streams = [];
     };
     return StreamContainer;
 }());
