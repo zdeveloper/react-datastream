@@ -1,6 +1,6 @@
 {
   "name": "react-datastream",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "React js state management made easy!",
   "main": "dist/datastream.js",
   "scripts": {
