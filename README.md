@@ -17,7 +17,9 @@ react-datastream uses streams with a pub/sub model, any component can publish to
 $ npm install react-datastream
 ```
 
-Then import it in your code
+### Usage
+
+Import it in your code
 
 ```javascript
 import datastream from "react-datastream";
@@ -41,5 +43,21 @@ listen for changes
 ```javascript
 datastream.subscribe(STREAM_NAME, (value) => {console.log(value)});
 ```
+
+
+Dont forget to unsubscribe to prevent orphaned callbacks
+
+```typescript
+stream: Stream;
+
+componentDidMount() {
+  this.stream = datastream.subscribe(STREAM_NAME, value => console.log(value));
+}
+
+componentWillUnmount() {
+  this.stream.unsubscribe()
+}
+```
+
 
 **Cheers!**
